@@ -68,3 +68,8 @@ Thumbs.db
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Generated visualizations (keep directory structure but not generated files)
+# screenshots/*.svg
+# screenshots/*.csv
+!screenshots/.gitkeep
