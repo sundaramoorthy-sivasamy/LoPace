@@ -10,7 +10,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="lopace",
-    version="0.1.1",
+    version="0.1.2",
     author="Aman Ulla",
     description="Lossless Optimized Prompt Accurate Compression Engine",
     long_description=long_description,

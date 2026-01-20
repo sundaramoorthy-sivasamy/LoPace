@@ -796,6 +796,104 @@ def plot_scalability(df: pd.DataFrame, output_dir: Path):
     print(f"  Saved: scalability_analysis.svg")
 
 
+def plot_original_vs_decompressed(output_dir: Path):
+    """Plot original vs decompressed data comparison across multiple prompts."""
+    compressor = PromptCompressor(model="cl100k_base", zstd_level=15)
+    prompts = generate_test_prompts()
+    
+    # Select a few diverse prompts for visualization
+    selected_prompts = [
+        ("Small Prompt 1", prompts[0][1]),
+        ("Medium Prompt 1", prompts[4][1]),
+        ("Large Prompt 1", prompts[7][1]),
+        ("Medium Prompt 2", prompts[5][1]),
+        ("Small Prompt 2", prompts[1][1]),
+    ]
+    
+    # Use Hybrid method (best compression)
+    method = CompressionMethod.HYBRID
+    
+    fig, axes = plt.subplots(len(selected_prompts), 1, figsize=(16, 14))
+    if len(selected_prompts) == 1:
+        axes = [axes]
+    
+    fig.suptitle('Original vs Decompressed: Lossless Compression Verification', 
+                 fontsize=18, fontweight='bold', y=0.995)
+    
+    for idx, (title, prompt) in enumerate(selected_prompts):
+        ax = axes[idx]
+        
+        # Compress and decompress
+        compressed = compressor.compress(prompt, method)
+        decompressed = compressor.decompress(compressed, method)
+        
+        # Verify losslessness
+        is_lossless = prompt == decompressed
+        
+        # Create representation: show byte-by-byte or character-by-character
+        original_bytes = prompt.encode('utf-8')
+        decompressed_bytes = decompressed.encode('utf-8')
+        
+        # Sample points for visualization (every Nth byte/char for performance)
+        sample_rate = max(1, len(original_bytes) // 200)  # ~200 points max
+        sample_indices = np.arange(0, len(original_bytes), sample_rate)
+        
+        # Get byte values (0-255) for visualization
+        original_byte_values = np.array([original_bytes[i] for i in sample_indices])
+        decompressed_byte_values = np.array([decompressed_bytes[i] for i in sample_indices])
+        
+        # Normalize to 0-100 range for better visualization
+        original_normalized = (original_byte_values / 255.0) * 100
+        decompressed_normalized = (decompressed_byte_values / 255.0) * 100
+        
+        # Plot original (blue line)
+        ax.plot(sample_indices, original_normalized, 'b-', linewidth=2.0, 
+               label='Original', alpha=0.7)
+        
+        # Plot decompressed (red line) - should overlap perfectly for lossless
+        ax.plot(sample_indices, decompressed_normalized, 'r-', linewidth=2.0, 
+               label='Decompressed', alpha=0.7, linestyle='--')
+        
+        # Mark key compression points (sample every Nth point)
+        step = max(1, len(sample_indices) // 20)
+        key_indices = sample_indices[::step]
+        key_original = original_normalized[::step]
+        ax.scatter(key_indices, key_original, 
+                  color='red', s=40, alpha=0.8, zorder=5, 
+                  label='Sample Points', marker='o', edgecolors='darkred', linewidths=1)
+        
+        # Add text info
+        original_size = len(original_bytes)
+        compressed_size = len(compressed)
+        compression_ratio = original_size / compressed_size if compressed_size > 0 else 0
+        space_saved = (1 - compressed_size / original_size) * 100 if original_size > 0 else 0
+        
+        info_text = (f"Size: {original_size} → {compressed_size} bytes "
+                    f"({space_saved:.1f}% saved, {compression_ratio:.2f}x) | "
+                    f"Lossless: {'✓' if is_lossless else '✗'}")
+        
+        ax.text(0.02, 0.95, info_text, transform=ax.transAxes,
+               fontsize=10, verticalalignment='top',
+               bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5),
+               fontweight='bold')
+        
+        ax.set_ylabel(f'{title}\n(Normalized Byte Values)', fontweight='bold')
+        ax.set_xlabel('Byte Position' if idx == len(selected_prompts) - 1 else '', fontweight='bold')
+        ax.set_title(f'{title} - {len(original_bytes)} bytes', fontweight='bold', pad=10)
+        ax.grid(True, alpha=0.3, linestyle='--')
+        ax.legend(loc='upper right', framealpha=0.9, fontsize=9)
+        ax.set_ylim(-5, 105)
+        
+        # Highlight that they overlap perfectly (lossless)
+        if is_lossless:
+            ax.axhspan(-5, 105, alpha=0.05, color='green', zorder=0)
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.99])
+    plt.savefig(output_dir / 'original_vs_decompressed.svg', format='svg', bbox_inches='tight')
+    plt.close()
+    print(f"  Saved: original_vs_decompressed.svg")
+
+
 def main():
     """Main function to generate all visualizations."""
     # Create output directory
@@ -827,6 +925,7 @@ def main():
     plot_memory_usage(df, output_dir)
     plot_comprehensive_comparison(df, output_dir)
     plot_scalability(df, output_dir)
+    plot_original_vs_decompressed(output_dir)
     
     print("\n" + "=" * 70)
     print("Visualization generation complete!")
