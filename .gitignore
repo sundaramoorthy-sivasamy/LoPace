@@ -70,6 +70,9 @@ Thumbs.db
 .dmypy.json
 dmypy.json
 
+# setuptools-scm generated (version from git tags)
+lopace/_version.py
+
 # Generated visualizations (keep directory structure but not generated files)
 # screenshots/*.svg
 # screenshots/*.csv

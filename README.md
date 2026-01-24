@@ -1,7 +1,7 @@
 # LoPace
 
 <div align="center">
-  <img src="screenshots/logo-text.png" alt="LoPace Logo" width="600"/>
+  <img src="https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/logo-text.png" alt="LoPace Logo" width="600"/>
 </div>
 
 **Lossless Optimized Prompt Accurate Compression Engine**
@@ -12,11 +12,11 @@ A professional, open-source Python package for compressing and decompressing pro
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyPI version](https://badge.fury.io/py/lopace.svg)](https://pypi.org/project/lopace/)
 [![🤗 Spaces](https://img.shields.io/badge/🤗%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/codewithaman/LoPace)
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](paper/lopace-preprint-arxiv.pdf)
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://raw.githubusercontent.com/connectaman/LoPace/main/paper/lopace-preprint-arxiv.pdf)
 
 <div align="center">
-  <a href="paper/lopace-preprint-arxiv.pdf">
-    <img src="paper/lopace-preprint-arxiv-01.png" alt="LoPace Research Paper - First Page" width="600" style="cursor: pointer; border: 1px solid #ddd; border-radius: 4px;">
+  <a href="https://raw.githubusercontent.com/connectaman/LoPace/main/paper/lopace-preprint-arxiv.pdf">
+    <img src="https://raw.githubusercontent.com/connectaman/LoPace/main/paper/lopace-preprint-arxiv-01.png" alt="LoPace Research Paper - First Page" width="250" style="cursor: pointer; border: 1px solid #ddd; border-radius: 4px;">
   </a>
   <p><em>Click the image above to view the full research paper (PDF)</em></p>
 </div>
@@ -238,7 +238,7 @@ Enumeration of available compression methods:
 
 ### Compression Pipeline (Hybrid Method)
 
-![Compression Pipeline](screenshots/compression-pipeline.png)
+![Compression Pipeline](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/compression-pipeline.png)
 
 ### Why Hybrid is Best for Databases
 
@@ -262,7 +262,7 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Compression Ratio Analysis
 
-![Compression Ratio](screenshots/compression_ratio.svg)
+![Compression Ratio](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/compression_ratio.svg)
 
 **Key Insights:**
 - **Hybrid method consistently achieves the highest compression ratios** across all prompt sizes
@@ -272,7 +272,7 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Space Savings Performance
 
-![Space Savings](screenshots/space_savings.svg)
+![Space Savings](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/space_savings.svg)
 
 **Key Insights:**
 - **Hybrid method achieves 70-80% space savings** on average across all prompt categories
@@ -282,7 +282,7 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Disk Size Comparison
 
-![Disk Size Comparison](screenshots/disk_size_comparison.svg)
+![Disk Size Comparison](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/disk_size_comparison.svg)
 
 **Key Insights:**
 - **Dramatic reduction in storage requirements** - compressed data is 3-6x smaller than original
@@ -292,8 +292,8 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Speed & Throughput Metrics
 
-![Speed Metrics](screenshots/speed_metrics.svg)
-![Speed Metrics](screenshots/original_vs_decompressed.svg)
+![Speed Metrics](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/speed_metrics.svg)
+![Speed Metrics](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/original_vs_decompressed.svg)
 
 **Key Insights:**
 - **Compression speeds range from 50-200 MB/s** depending on method and prompt size
@@ -303,7 +303,7 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Memory Usage Analysis
 
-![Memory Usage](screenshots/memory_usage.svg)
+![Memory Usage](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/memory_usage.svg)
 
 **Key Insights:**
 - **Memory footprint is minimal** - typically under 10 MB even for large prompts
@@ -313,7 +313,7 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Comprehensive Method Comparison
 
-![Comprehensive Comparison](screenshots/comprehensive_comparison.svg)
+![Comprehensive Comparison](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/comprehensive_comparison.svg)
 
 **Key Insights:**
 - **Heatmaps provide at-a-glance comparison** of all metrics across methods and prompt sizes
@@ -323,7 +323,7 @@ Comprehensive benchmarks were conducted on 10 diverse prompts across three size 
 
 ### Scalability Analysis
 
-![Scalability Analysis](screenshots/scalability_analysis.svg)
+![Scalability Analysis](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/scalability_analysis.svg)
 
 **Key Insights:**
 - **Performance scales efficiently** with prompt size across all metrics
@@ -393,6 +393,23 @@ cd lopace
 pip install -r requirements-dev.txt
 ```
 
+### Versioning & Releasing
+
+LoPace uses [setuptools-scm](https://github.com/pypa/setuptools_scm) so the package version is **derived from Git tags** — no manual edits to `setup.py` or `pyproject.toml` are needed.
+
+**To release a new version:**
+
+1. Bump the version by creating and pushing a tag (e.g. `v0.1.5`):
+   ```bash
+   git tag v0.1.5
+   git push origin v0.1.5
+   ```
+2. CI builds the package with that version and publishes to PyPI.
+
+The version in `lopace.__version__` (and the built distribution) comes from the latest tag. Without a tag, you get a dev version like `0.1.5.dev3+gabc1234`.
+
+**Will the next push to `main` build 0.1.4?** No. If the latest tag is `v0.1.4` and you push new commits to `main` without a new tag, setuptools-scm produces a **development version** (e.g. `0.1.5.dev3`), not `0.1.4`. To release `0.1.5`, create and push the tag `v0.1.5`; CI will then build and publish that version to PyPI.
+
 ### Running Tests
 
 ```bash
@@ -416,7 +433,7 @@ See [.github/workflows/README.md](.github/workflows/README.md) for detailed setu
 
 LoPace uses the following compression techniques:
 
-![Compression techniques](screenshots/lopace-compression-technique.png)
+![Compression techniques](https://raw.githubusercontent.com/connectaman/LoPace/main/screenshots/lopace-compression-technique.png)
 
 1. **LZ77 (Sliding Window)**: Used **indirectly** through Zstandard
    - Zstandard internally uses LZ77-style algorithms to find repeated patterns

@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "lopace"
-version = "0.1.4"
+dynamic = ["version"]
 description = "Lossless Optimized Prompt Accurate Compression Engine"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -37,3 +37,9 @@ Repository = "https://github.com/connectaman/LoPace"
 Issues = "https://github.com/connectaman/LoPace/issues"
 "PyPI" = "https://pypi.org/project/lopace/"
 "Hugging Face Spaces" = "https://huggingface.co/spaces/codewithaman/LoPace"
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"
+version_file = "lopace/_version.py"
+fallback_version = "0.0.0.dev0"
