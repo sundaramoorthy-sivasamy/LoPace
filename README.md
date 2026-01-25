@@ -388,7 +388,7 @@ The app features:
 ### Setup Development Environment
 
 ```bash
-git clone https://github.com/amanulla/lopace.git
+git clone https://github.com/connectaman/LoPace.git
 cd lopace
 pip install -r requirements-dev.txt
 ```
