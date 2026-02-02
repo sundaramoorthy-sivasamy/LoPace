@@ -79,3 +79,14 @@ Edit `scripts/generate_visualizations.py` to customize:
 - seaborn
 - numpy
 - lopace (installed)
+
+
+# Validation Scripts
+
+### Running validation scripts
+
+```bash
+pip install -e .
+pip install -r requirements.txt
+python scripts/validate_compression_methods_hf.py
+```
